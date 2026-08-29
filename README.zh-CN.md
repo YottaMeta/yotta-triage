@@ -46,7 +46,7 @@
 | **可解释** | 每条风险线索带评分与中文理由；绝不给裸结论 |
 | **低噪音** | 非 TLD 后缀过滤（payload.exe 不算域名）、IP 八位组校验、去重 |
 | **下游友好** | --ioc-only 直接输出干净的 IOC JSON 数组，供元情与其它情报管线使用 |
-| **生态分发** | GitHub + npm + ClawHub 三源同步；npx / install.sh / 手动复制均可安装 |
+| **生态分发** | GitHub + npm + ClawHub 三源同步；npx / git clone / Download ZIP / install.sh 四种安装方式 |
 
 ## 命令
 
@@ -92,7 +92,7 @@ python3 scripts/yotta_triage.py --version
 
 ```
 === 元鉴 yotta-triage 静态初筛报告 ===
-工具: yotta-triage v0.1.0 | 生成: 2026-08-28T00:00:00+00:00
+工具: yotta-triage v0.1.1 | 生成: 2026-08-28T00:00:00+00:00
 文件: 2（成功 2）| 最高风险: medium | IOC: 5 条
 
 :: sample_upx.exe  (DOS/PE executable (MZ), 4776 bytes)
@@ -111,51 +111,39 @@ python3 scripts/yotta_triage.py --version
 
 ## 安装
 
-任选一种方式；技能文件一律从 **npm** 拉取（GitHub 无代理可能较慢；npm 支持镜像）。
+以下四种方式任选，顺序即推荐优先级；技能文件一律从 **npm** 获取（GitHub 无代理较慢，npm 支持镜像）。
 
-### 方式一：npm（推荐，一行命令）
-```bash
-# 国内可选镜像：npm config set registry https://registry.npmmirror.com
-npx -y @yottameta/yotta-triage -g
-npx -y @yottameta/yotta-triage --dir <你的技能目录>   # 任意智能体：装到自定义目录
+### 方式一：npm 一行装（推荐）
+
+```text
+# 可选国内加速：npm config set registry https://registry.npmmirror.com
+npx -y @yottameta/yotta-triage --agent <智能体名称>      # 装到指定智能体默认用户级技能目录
+npx -y @yottameta/yotta-triage --dir <智能体的技能目录>  # 指到技能目录本身（如 ~/.codex/skills）
 ```
-> 预设列表里没有你的智能体？用 --dir 指向它的技能目录，或手动复制（方式三）。--list 可查看各智能体默认目录。
 
-### 方式二：install.sh
-拿到技能目录后（npm pack 解包或 git clone），进入目录：
-```bash
-bash install.sh -g    # 用户级；bash install.sh --list 查看全部目录
-bash install.sh --agent codex   # 指定智能体（见 --list）
-bash install.sh       # 项目级：自动探测已存在的技能目录
-bash install.sh --dir /path/to/skills
+- `--agent <name>` 自动装到该智能体默认用户级目录；`--list` 可查看各智能体默认目录。
+- `--dir <路径>` 装到指定的技能目录；未收录的智能体用 `--dir` 指到它的技能目录。
+- npmmirror 未同步新包（404）：加 `--registry=https://registry.npmjs.org/`（国内需代理），或稍等镜像缓存。
+
+### 方式二：git clone（开发者 / 有 git 环境）
+
+```text
+git clone https://github.com/YottaMeta/yotta-triage.git <智能体的技能目录>/yotta-triage
 ```
-> 覆盖 17 类智能体（含 Trae / Qwen / Comate / CodeBuddy / Kimi）。
 
-### 方式三：手动复制
-把整个 yotta-triage 目录复制到目标智能体的技能目录。常见用户级位置（Windows 为 %USERPROFILE%，Linux/macOS 为 ~）：
+### 方式三：GitHub 下载压缩包（手动 / 无 git 环境）
 
-| 智能体 | 用户级目录 | 项目级目录 |
-|---|---|---|
-| Codex | %USERPROFILE%\.codex\skills\yotta-triage\ | .codex\skills\ |
-| Claude Code | %USERPROFILE%\.claude\skills\yotta-triage\ | .claude\skills\ |
-| Cursor | %USERPROFILE%\.cursor\skills\yotta-triage\ | .cursor\skills\ |
-| Windsurf | %USERPROFILE%\.codeium\windsurf\skills\yotta-triage\ | .windsurf\skills\ |
-| opencode | %USERPROFILE%\.config\opencode\skills\yotta-triage\ | .opencode\skills\ |
-| Gemini | %USERPROFILE%\.gemini\skills\yotta-triage\ | .gemini\skills\ |
-| Goose | %USERPROFILE%\.config\goose\skills\yotta-triage\ | .goose\skills\ |
-| Amp | %USERPROFILE%\.config\agents\skills\yotta-triage\ | .agents\skills\ |
-| Kiro | %USERPROFILE%\.kiro\skills\yotta-triage\ | .kiro\skills\ |
-| WorkBuddy | %USERPROFILE%\.workbuddy\skills\yotta-triage\ | .workbuddy\skills\ |
-| Trae Code CLI | %USERPROFILE%\.traecli\skills\yotta-triage\ | .traecli\skills\ |
-| Trae IDE（国内） | %USERPROFILE%\.trae-cn\skills\yotta-triage\ | .trae\skills\ |
-| Qwen Code | %USERPROFILE%\.qwen\skills\yotta-triage\ | .qwen\skills\ |
-| Comate 文心快码 | %USERPROFILE%\.comate\skills\yotta-triage\ | .comate\skills\ |
-| CodeBuddy | %USERPROFILE%\.codebuddy\skills\yotta-triage\ | .codebuddy\skills\ |
-| Kimi | %USERPROFILE%\.kimi\skills\yotta-triage\ | .kimi\skills\ |
-| 通用 AGENTS.md | %USERPROFILE%\.agents\skills\yotta-triage\ | .agents\skills\ |
+在 GitHub 仓库 `YottaMeta/yotta-triage` 点 **Code → Download ZIP**，解压后把 `yotta-triage` 文件夹放进智能体技能目录。
 
-> 设置了 CODEX_HOME 时以它为准；opencode 同理看 XDG_CONFIG_HOME。.agents\skills 不是通用目录——只有 OpenCode / Cursor / Cline / Amp / Kimi / Gemini CLI / GitHub Copilot 等读取；**Claude Code 与 Codex 默认不读**。拿不准就用 --dir 或让智能体自己装。
+### 方式四：install.sh（多智能体一键脚本）
 
+```text
+bash install.sh --agent <name>   # 装到指定智能体默认用户级目录
+bash install.sh --dir <path>     # 装到指定目录
+bash install.sh --list           # 列出智能体 -> 默认目录
+```
+
+> 方式一走 npm 源（npmmirror / npmjs），不依赖 GitHub；方式二 / 三走 GitHub，国内无代理可能失败。
 ## 输出格式
 
 - **text** — 每文件一段（哈希 / 类型 / 熵 / PE-ELF / 字符串统计 / 风险理由）+ 文件级 IOC 汇总；

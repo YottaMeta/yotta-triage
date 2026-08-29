@@ -440,7 +440,7 @@ class TestCLI(unittest.TestCase):
     def test_version(self):
         r = run_cli("--version")
         self.assertEqual(r.returncode, 0)
-        self.assertIn("0.1.0", r.stdout)
+        self.assertIn("0.1.1", r.stdout)
 
     def test_no_args_exit4(self):
         r = run_cli()
