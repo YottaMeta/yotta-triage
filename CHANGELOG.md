@@ -1,5 +1,9 @@
 # 更新日志
 
+## v0.1.2 (2026-09-13)
+
+- 文档 hygiene 清理：移除历史公开文档中的内部表述，版本同步 0.1.2。
+
 ## v0.1.1 (2026-08-29)
 
 - 安装方式统一为四方式（对齐发布规范 §3.3.1）：方式一 `npx -y @yottameta/yotta-triage --agent <name>` / `--dir <dir>`（推荐，走 npm 源）；方式二 `git clone https://github.com/YottaMeta/yotta-triage.git`；方式三 GitHub Download ZIP；方式四 `bash install.sh --agent/--dir/--list`。移除 `npx skills` 与 `-g` 推荐；中英双 README 安装节同步。
