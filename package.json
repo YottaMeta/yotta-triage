@@ -18,7 +18,10 @@
     "assets",
     "bin",
     "NOTICE",
-    "CHANGELOG.md"
+    "CHANGELOG.md",
+    "!scripts/test_*.py",
+    "!**/__pycache__",
+    "!**/*.pyc"
   ],
   "repository": {
     "type": "git",
