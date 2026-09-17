@@ -57,7 +57,7 @@ It is not tied to any single platform: it is an agent-agnostic toolkit that work
 | triage --format | Output format: text (default) / json / markdown |
 | triage --output <file> | Write the report to a file (default: stdout) |
 | triage --ioc-only | Emit only the IOC JSON array (for yotta-intel) |
-| triage --no-strings | Skip string extraction (hash / type / entropy / PE-ELF only) |
+| triage --no-strings | Skip string extraction; report marks it as skipped instead of showing zero strings |
 | triage --strings-min <n> | Minimum printable-string length (default 4) |
 | triage --strings-limit <n> | Max strings extracted per file (default 500) |
 | triage --max-file-mb <n> | Skip files larger than n MB (default 256) |

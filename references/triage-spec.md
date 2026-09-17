@@ -45,6 +45,7 @@
 
 - 可打印字符串：ASCII（0x20-0x7E）连续段 + UTF-16LE（偶偏移可打印 + 奇偏移 0x00）连续段。
 - 默认最小长度 4（--strings-min），每文件上限 500 条（--strings-limit）。
+- `--no-strings` 时 `strings.count=0` 且 `strings.skipped=true`；文本报告显示“字符串: 已跳过”，避免与真实零字符串混淆。
 - 分类：
   - URL：http / https / ftp 开头，去尾部标点（.,;:!?)]}> 与引号）。
   - 域名：多段标签 + 末段 ≥2 字母；**非 TLD 后缀黑名单**（exe/dll/py/js/txt/md/zip/png…）过滤，避免 payload.exe / a.exe 误判。

@@ -52,7 +52,7 @@ try:
 except Exception:
     pass
 
-VERSION = "0.1.2"
+VERSION = "0.1.3"
 TOOL = "yotta-triage"
 TOOL_CN = "元鉴"
 
@@ -597,7 +597,7 @@ def triage_one(path, strings_min=ASCII_STRINGS_MIN, strings_limit=500,
         "count": 0, "classified": {
             "urls": [], "domains": [], "ips": [], "emails": [],
             "commands": [], "paths": [], "base64": []},
-        "suspicious": [],
+        "suspicious": [], "skipped": bool(no_strings),
     }
     if not no_strings:
         strings = extract_strings(data, min_len=strings_min, max_strings=strings_limit)
@@ -738,9 +738,12 @@ def build_text(report):
                 elf.get("class", "?"), elf.get("machine", "?"), elf.get("type", "?"),
                 elf.get("entry", 0), elf.get("phnum", 0), elf.get("shnum", 0)))
         cls = rec["strings"]["classified"]
-        lines.append("  字符串: %d 条 | %d URL | %d 域 | %d IP | %d 邮箱 | %d 命令 | %d base64" % (
-            rec["strings"]["count"], len(cls["urls"]), len(cls["domains"]),
-            len(cls["ips"]), len(cls["emails"]), len(cls["commands"]), len(cls["base64"])))
+        if rec["strings"].get("skipped"):
+            lines.append("  字符串: 已跳过（--no-strings）")
+        else:
+            lines.append("  字符串: %d 条 | %d URL | %d 域 | %d IP | %d 邮箱 | %d 命令 | %d base64" % (
+                rec["strings"]["count"], len(cls["urls"]), len(cls["domains"]),
+                len(cls["ips"]), len(cls["emails"]), len(cls["commands"]), len(cls["base64"])))
         if cls["urls"]:
             for u in cls["urls"][:8]:
                 lines.append("    URL  : %s" % u)
